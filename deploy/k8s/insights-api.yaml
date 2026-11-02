@@ -1,0 +1,55 @@
+# Illustrative production manifests for the Insights API (collector / stream workers follow the same pattern).
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: insights-api, labels: {app: insights-api}}
+spec:
+  replicas: 3
+  strategy: {rollingUpdate: {maxUnavailable: 0, maxSurge: 25%}}
+  selector: {matchLabels: {app: insights-api}}
+  template:
+    metadata:
+      labels: {app: insights-api}
+      annotations: {prometheus.io/scrape: "true", prometheus.io/port: "8080", prometheus.io/path: /metrics}
+    spec:
+      topologySpreadConstraints:            # spread across AZs
+        - {maxSkew: 1, topologyKey: topology.kubernetes.io/zone, whenUnsatisfiable: DoNotSchedule, labelSelector: {matchLabels: {app: insights-api}}}
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: REGISTRY/insights-api:GIT_SHA
+          ports: [{containerPort: 8080}]
+          env:
+            - name: JWT_SECRET
+              valueFrom: {secretKeyRef: {name: insights-api, key: jwt-secret}}   # from Secrets Manager via External Secrets
+            - {name: SEED, value: "false"}
+          resources: {requests: {cpu: 250m, memory: 256Mi}, limits: {memory: 512Mi}}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          readinessProbe: {httpGet: {path: /readyz, port: 8080}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /healthz, port: 8080}, periodSeconds: 10}
+          lifecycle: {preStop: {exec: {command: ["sleep", "5"]}}}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: {name: insights-api}
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: insights-api}
+  minReplicas: 3
+  maxReplicas: 60
+  metrics:
+    - {type: Resource, resource: {name: cpu, target: {type: Utilization, averageUtilization: 60}}}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: insights-api}
+spec: {minAvailable: 2, selector: {matchLabels: {app: insights-api}}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: insights-api}
+spec:
+  podSelector: {matchLabels: {app: insights-api}}
+  policyTypes: [Ingress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {name: ingress}}}, {namespaceSelector: {matchLabels: {name: monitoring}}}]
+      ports: [{port: 8080}]
