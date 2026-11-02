@@ -1,0 +1,4 @@
+[
+  {"id": "flipkart", "name": "Flipkart Ads", "rps": 50, "burst": 100},
+  {"id": "walmart",  "name": "Walmart Connect", "rps": 5, "burst": 10}
+]

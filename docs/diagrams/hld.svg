@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="640" viewBox="0 0 1560 640" font-family="Helvetica, Arial, DejaVu Sans, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B45309"/></marker></defs>
+<rect width="1560" height="640" fill="#FFFFFF"/>
+<text x="24" y="34" font-size="22" fill="#0F172A" text-anchor="start" font-weight="700">High-Level Design</text>
+<rect x="14" y="52" width="1532" height="150" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="5 4"/>
+<text x="24" y="70" font-size="12" fill="#475569" text-anchor="start" font-weight="700">1 · Events come in</text>
+<rect x="24" y="88" width="210" height="84" rx="7" fill="#EEF2F7" stroke="#64748B" stroke-width="1.4"/>
+<text x="129.0" y="105" font-size="12.5" fill="#64748B" text-anchor="middle" font-weight="700">Retailer apps</text>
+<text x="129.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">web, mobile, ad servers</text>
+<rect x="270" y="88" width="210" height="84" rx="7" fill="#FDEBD3" stroke="#C2410C" stroke-width="1.4"/>
+<text x="375.0" y="105" font-size="12.5" fill="#C2410C" text-anchor="middle" font-weight="700">Edge</text>
+<text x="375.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">WAF, TLS, API key</text>
+<rect x="516" y="88" width="210" height="84" rx="7" fill="#DCEBFE" stroke="#1D4ED8" stroke-width="1.4"/>
+<text x="621.0" y="105" font-size="12.5" fill="#1D4ED8" text-anchor="middle" font-weight="700">Collector (Go)</text>
+<text x="621.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">validate, return 202</text>
+<rect x="762" y="88" width="210" height="84" rx="7" fill="#E9E5FF" stroke="#6D28D9" stroke-width="1.4"/>
+<text x="867.0" y="105" font-size="12.5" fill="#6D28D9" text-anchor="middle" font-weight="700">Kafka</text>
+<text x="867.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">buffer, replay, ordering</text>
+<rect x="1008" y="88" width="210" height="84" rx="7" fill="#F3E1FA" stroke="#A21CAF" stroke-width="1.4"/>
+<text x="1113.0" y="105" font-size="12.5" fill="#A21CAF" text-anchor="middle" font-weight="700">Stream workers (Go)</text>
+<text x="1113.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">dedup, attribute, count</text>
+<rect x="1254" y="88" width="210" height="84" rx="7" fill="#DDF5E4" stroke="#15803D" stroke-width="1.4"/>
+<text x="1359.0" y="105" font-size="12.5" fill="#15803D" text-anchor="middle" font-weight="700">Redis</text>
+<text x="1359.0" y="122.0" font-size="12.5" fill="#1E293B" text-anchor="middle">last 48 h, exact sets</text>
+<path d="M234,130 L270,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M480,130 L516,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M726,130 L762,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M972,130 L1008,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M1218,130 L1254,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="14" y="216" width="1532" height="150" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="5 4"/>
+<text x="24" y="234" font-size="12" fill="#475569" text-anchor="start" font-weight="700">2 · Nightly job builds exact history</text>
+<rect x="762" y="252" width="210" height="84" rx="7" fill="#DDF5E4" stroke="#15803D" stroke-width="1.4"/>
+<text x="867.0" y="269" font-size="12.5" fill="#15803D" text-anchor="middle" font-weight="700">S3</text>
+<text x="867.0" y="286.0" font-size="12.5" fill="#1E293B" text-anchor="middle">every raw event, 13 months</text>
+<rect x="1008" y="252" width="210" height="84" rx="7" fill="#FEF3C7" stroke="#B45309" stroke-width="1.4"/>
+<text x="1113.0" y="269" font-size="12.5" fill="#B45309" text-anchor="middle" font-weight="700">Nightly Go job</text>
+<text x="1113.0" y="286.0" font-size="12.5" fill="#1E293B" text-anchor="middle">recount yesterday exactly</text>
+<rect x="1254" y="252" width="210" height="84" rx="7" fill="#DDF5E4" stroke="#15803D" stroke-width="1.4"/>
+<text x="1359.0" y="269" font-size="12.5" fill="#15803D" text-anchor="middle" font-weight="700">DynamoDB</text>
+<text x="1359.0" y="286.0" font-size="12.5" fill="#1E293B" text-anchor="middle">one count per campaign/day</text>
+<path d="M867.0,172 L867.0,252" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="875.0" y="202" font-size="10.5" fill="#334155" text-anchor="start" paint-order="stroke" stroke="#fff" stroke-width="3">archive</text>
+<path d="M972,294 L1008,294" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M1218,294 L1254,294" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="14" y="380" width="1532" height="150" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="5 4"/>
+<text x="24" y="398" font-size="12" fill="#475569" text-anchor="start" font-weight="700">3 · Marketers read insights</text>
+<rect x="24" y="418" width="210" height="84" rx="7" fill="#EEF2F7" stroke="#475569" stroke-width="1.4"/>
+<text x="129.0" y="435" font-size="12.5" fill="#475569" text-anchor="middle" font-weight="700">Marketer / retailer</text>
+<text x="129.0" y="452.0" font-size="12.5" fill="#1E293B" text-anchor="middle">calls the API</text>
+<rect x="270" y="418" width="210" height="84" rx="7" fill="#FDEBD3" stroke="#C2410C" stroke-width="1.4"/>
+<text x="375.0" y="435" font-size="12.5" fill="#C2410C" text-anchor="middle" font-weight="700">Gateway</text>
+<text x="375.0" y="452.0" font-size="12.5" fill="#1E293B" text-anchor="middle">JWT check, rate limit</text>
+<rect x="516" y="418" width="210" height="84" rx="7" fill="#FFE8CC" stroke="#EA580C" stroke-width="1.4"/>
+<text x="621.0" y="435" font-size="12.5" fill="#EA580C" text-anchor="middle" font-weight="700">Insights API (Go)</text>
+<text x="621.0" y="452.0" font-size="12.5" fill="#1E293B" text-anchor="middle">cache + route by date</text>
+<path d="M234,460 L270,460" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M480,460 L516,460" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M726,474 L1324,474 L1324,336" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="802" y="468" font-size="10.5" fill="#334155" text-anchor="start" paint-order="stroke" stroke="#fff" stroke-width="3">older than 48 h</text>
+<path d="M726,446 L1504,446 L1504,130 L1464,130" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="802" y="440" font-size="10.5" fill="#334155" text-anchor="start" paint-order="stroke" stroke="#fff" stroke-width="3">last 48 h</text>
+<text x="24" y="570" font-size="12.5" fill="#334155" text-anchor="start">Workers give fast numbers for the last 48 hours. The nightly job recounts each day from raw events (catching late events, bots, duplicates)</text>
+<text x="24" y="590" font-size="12.5" fill="#334155" text-anchor="start">and writes the exact daily count that history queries read.</text>
+</svg>
